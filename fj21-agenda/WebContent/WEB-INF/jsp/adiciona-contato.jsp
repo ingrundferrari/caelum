@@ -14,11 +14,13 @@
 </head>
 <body>
 <c:import url="cabecalho.jsp" />
-	<form action="adicionaContato">
+	<form action="alteraAdicionaContato">
+		<input type="hidden" nome="logica" value="AdicionaAlteraLogic" >
 		Nome: <input type="text" name="nome" /><br/>
 		E-mail: <input type="text" name="email" /><br/>
 		Endere&ccedil;o: <input type="text" name="endereco" /><br/>
 		Data Nascimento: <dp:campoData id="dataNascimento" /><br/>
+
 		<input type="submit" value="Gravar"/>
 	</form>
 <c:import url="rodape.jsp" />

@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.caelum.jdbc.ConnectionFactory;
 import br.com.caelum.jdbc.modelo.Contato;
 
 public class ContatoDao {
 
 	private Connection connection;
 
-	public ContatoDao(){
-		this.connection = new ConnectionFactory().getConnection();
+	public ContatoDao(Connection connection){
+		this.connection = connection;
 	}
 
 	public void adiciona(Contato contato){
@@ -76,7 +75,39 @@ public class ContatoDao {
 			throw new RuntimeException(e);
 		}
 	}
+	public Contato getContatoId(Contato contato){
+		try {
 
+			PreparedStatement stmt = this.connection.prepareStatement("Select * from contatos where id = ?");
+			stmt.setLong(1, contato.getId());
+
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+
+
+				contato.setId(rs.getLong("id"));
+				contato.setNome(rs.getString("nome"));
+				contato.setEmail(rs.getString("email"));
+				contato.setEndereco(rs.getString("endereco"));
+
+				Calendar data = Calendar.getInstance();
+				data.setTime(rs.getDate("dataNascimento"));
+				contato.setDataNascimento(data);
+
+
+			}
+
+			rs.close();
+			stmt.close();
+
+			return contato;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	public void altera(Contato contato) {
 
 		String sql = "update contatos set nome=?, email=?, endereco=?," +

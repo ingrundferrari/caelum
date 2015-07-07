@@ -13,8 +13,7 @@
 <body>
 <c:import url="cabecalho.jsp"></c:import>
 
-	<jsp:useBean id="dao" class="br.com.caelum.dao.ContatoDao">
-	<disp:table  name="${dao.lista }">
+	<disp:table  name="${contatos}">
 		<disp:column property="id" />
 	    <disp:column property="nome" />
 	    <disp:column property="email" />
@@ -23,7 +22,7 @@
 	</disp:table>
 
 <table>
-		<c:forEach var="contato" items="${dao.lista }" varStatus="id">
+		<c:forEach var="contato" items="${contatos}" varStatus="id">
 				<tr bgcolor="#${id.count % 2 == 0 ? 'aaee88' : 'ffffff' }">
 					<td>${contato.nome }</td>
 					<td>
@@ -45,9 +44,10 @@
 					</td>
 					<td>${contato.endereco }</td>
 					<td><fmt:formatDate value="${contato.dataNascimento.time }" pattern="dd/MM/yyyy" /></td>
+					<td><a href="mvc?logica=RemoveContatoLogic&id=${contato.id }">Remover</a></td>
+					<td><a href="mvc?logica=PreparaAlteraLogic&id=${contato.id }">Alterar</a></td>
 				</tr>
 		</c:forEach>
-	</jsp:useBean>
 </table>
 <c:import url="rodape.jsp"></c:import>
 </body>
